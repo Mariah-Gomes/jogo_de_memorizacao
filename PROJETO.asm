@@ -6,6 +6,12 @@
 org 0000h
 	LJMP START
 
+org 023H
+MOV A,SBUF ; REALIZA A LEITURA DO BYTE RECEBIDO
+MOV 50h, A ; ESCREVE O VALOR NO ENDEREÇO 30H
+CLR RI ; RESETA RI PARA RECEBER NOVO BYTE
+RETI
+
 org 0070h
 START:
 	ACALL lcd_init
@@ -24,6 +30,7 @@ START:
 	ACALL NEW_DELAY
 	ACALL LIMPAR_DISPLAY
 	ACALL READ_SEQUENCIAS
+	ACALL USUARIO_DIGITA
 
 	ACALL NIVEL_MEDIO
 	ACALL READ_SEQUENCIAS
@@ -239,6 +246,16 @@ NEW_DELAY:
 	RET
 
 
+USUARIO_DIGITA:
+MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
+MOV PCON, #80h ;set o bit SMOD 
+MOV TMOD, #20H ;CT1 no modo 2 
+MOV TH1, #243 ;valor para a recarga 
+MOV TL1, #243 ;valor para a primeira contagem
+MOV IE,#90H ; Habilita interrupção serial
+SETB TR1 ;liga o contador/temporizador 1 
+JMP $
+
 ; initialise the display
 ; see instruction set for details
 lcd_init:
@@ -341,7 +358,7 @@ sendCharacter:
 	RET
 
 ;Posiciona o cursor na linha e coluna desejada.
-;Escreva no Acumulador o valor de endereÃ§o da linha e coluna.
+;Escreva no Acumulador o valor de endereço da linha e coluna.
 ;|--------------------------------------------------------------------------------------|
 ;|linha 1 | 00 | 01 | 02 | 03 | 04 |05 | 06 | 07 | 08 | 09 |0A | 0B | 0C | 0D | 0E | 0F |
 ;|linha 2 | 40 | 41 | 42 | 43 | 44 |45 | 46 | 47 | 48 | 49 |4A | 4B | 4C | 4D | 4E | 4F |
@@ -375,7 +392,7 @@ posicionaCursor:
 	RET
 
 
-;Retorna o cursor para primeira posiÃ§Ã£o sem limpar o display
+;Retorna o cursor para primeira posição sem limpar o display
 retornaCursor:
 	CLR RS	      ; clear RS - indicates that instruction is being sent to module
 	CLR P1.7		; |
@@ -396,30 +413,6 @@ retornaCursor:
 
 	CALL delay		; wait for BF to clear
 	RET
-
-
-;Limpa o display
-clearDisplay:
-	CLR RS	      ; clear RS - indicates that instruction is being sent to module
-	CLR P1.7		; |
-	CLR P1.6		; |
-	CLR P1.5		; |
-	CLR P1.4		; | high nibble set
-
-	SETB EN		; |
-	CLR EN		; | negative edge on E
-
-	CLR P1.7		; |
-	CLR P1.6		; |
-	CLR P1.5		; |
-	SETB P1.4		; | low nibble set
-
-	SETB EN		; |
-	CLR EN		; | negative edge on E
-
-	CALL delay		; wait for BF to clear
-	RET
-
 
 delay:
 	MOV R7, #50
