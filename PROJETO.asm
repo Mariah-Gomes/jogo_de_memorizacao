@@ -6,7 +6,7 @@
 org 0000h
 	LJMP START
 
-org 0050h
+org 0070h
 START:
 	ACALL lcd_init
 
