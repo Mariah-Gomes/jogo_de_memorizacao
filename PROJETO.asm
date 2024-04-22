@@ -6,75 +6,260 @@
 org 0000h
 	LJMP START
 
-org 0040h
+org 023H
+	ACALL COMPARAR
+	RETI
+
+COMPARAR:
+	MOV R0, 30H
+	MOV R1, 31H
+ROT2:
+	MOV A,SBUF ; REALIZA A LEITURA DO BYTE RECEBIDO
+	MOV 50h, A ; ESCREVE O VALOR NO ENDEREÇO 30H
+	CLR RI ; RESETA RI PARA RECEBER NOVO BYTE
+	MOV A, @R0
+	CJNE A, 50H, PERDEU
+	INC R0
+	DJNZ R1, ROT2
+	RET
+
+PERDEU:
+	JMP $
+
+
+org 0070h
 START:
 	ACALL lcd_init
+
+	ACALL BEM_VINDO
+	ACALL READ_SEQUENCIAS
+	ACALL LIMPAR_DISPLAY
+	ACALL READ_SEQUENCIAS
+	
+	ACALL NIVEL_FACIL
+	ACALL READ_SEQUENCIAS
+	ACALL LIMPAR_DISPLAY
+	ACALL READ_SEQUENCIAS
 	ACALL SEQUENCIA_FACIL
+	ACALL READ_SEQUENCIAS
+	ACALL AJST_FACIL
+	ACALL NEW_DELAY
+	ACALL LIMPAR_DISPLAY
+	ACALL READ_SEQUENCIAS
+	ACALL USUARIO_DIGITA
+
+	ACALL NIVEL_MEDIO
+	ACALL READ_SEQUENCIAS
+	ACALL LIMPAR_DISPLAY
 	ACALL READ_SEQUENCIAS
 	ACALL SEQUENCIA_MEDIO
 	ACALL READ_SEQUENCIAS
+	ACALL AJST_MEDIO
+	ACALL NEW_DELAY
+	ACALL LIMPAR_DISPLAY
+	ACALL READ_SEQUENCIAS
+	ACALL USUARIO_DIGITA
+
+	ACALL NIVEL_DIFICIL
+	ACALL READ_SEQUENCIAS
+	ACALL LIMPAR_DISPLAY
+	ACALL READ_SEQUENCIAS
 	ACALL SEQUENCIA_DIFICIL
+	ACALL READ_SEQUENCIAS
+	ACALL AJST_DIFICIL
+	ACALL NEW_DELAY
+	ACALL LIMPAR_DISPLAY
+	ACALL READ_SEQUENCIAS
+	ACALL USUARIO_DIGITA
+
+	ACALL NIVEL_GOD
+	ACALL READ_SEQUENCIAS
+	ACALL LIMPAR_DISPLAY
 	ACALL READ_SEQUENCIAS
 	ACALL SEQUENCIA_GOD
 	ACALL READ_SEQUENCIAS
+	ACALL AJST_GOD
+	ACALL NEW_DELAY
+	ACALL LIMPAR_DISPLAY
+	ACALL READ_SEQUENCIAS
+	ACALL USUARIO_DIGITA
+
 	JMP $
 
+BEM_VINDO:
+	MOV 33H, #'B'
+	MOV 34H, #'E'
+	MOV 35H, #'M'
+	MOV 36H, #'-'
+	MOV 37H, #'V'
+	MOV 38H, #'I'
+	MOV 39H, #'N'
+	MOV 3AH, #'D'
+	MOV 3BH, #'O'
+	MOV 30H, #33H
+	MOV 31H, #09H
+	MOV 32H, #0H
+	RET
+
+
+NIVEL_FACIL:
+	MOV 33H, #'N'
+	MOV 34H, #'I'
+	MOV 35H, #'V'
+	MOV 36H, #'E'
+	MOV 37H, #'L'
+	MOV 38H, #' '
+	MOV 39H, #'F'
+	MOV 3AH, #'A'
+	MOV 3BH, #'C'
+	MOV 3CH, #'I'
+	MOV 3DH, #'L'
+	MOV 30H, #33H
+	MOV 31H, #0BH
+	MOV 32H, #0H
+	MOV R6, #0H
+	RET 
+NIVEL_MEDIO:
+	MOV 33H, #'N'
+	MOV 34H, #'I'
+	MOV 35H, #'V'
+	MOV 36H, #'E'
+	MOV 37H, #'L'
+	MOV 38H, #' '
+	MOV 39H, #'M'
+	MOV 3AH, #'E'
+	MOV 3BH, #'D'
+	MOV 3CH, #'I'
+	MOV 3DH, #'O'
+	MOV 30H, #33H
+	MOV 31H, #0BH
+	MOV 32H, #0H
+	MOV R6, #0H
+	RET
+NIVEL_DIFICIL:
+	MOV 33H, #'N'
+	MOV 34H, #'I'
+	MOV 35H, #'V'
+	MOV 36H, #'E'
+	MOV 37H, #'L'
+	MOV 38H, #' '
+	MOV 39H, #'D'
+	MOV 3AH, #'I'
+	MOV 3BH, #'F'
+	MOV 3CH, #'I'
+	MOV 3DH, #'C'
+	MOV 3EH, #'I'
+	MOV 3FH, #'L'
+	MOV 30H, #33H
+	MOV 31H, #0DH
+	MOV 32H, #0H
+	MOV R6, #0H
+	RET
+NIVEL_GOD:
+	MOV 33H, #'N'
+	MOV 34H, #'I'
+	MOV 35H, #'V'
+	MOV 36H, #'E'
+	MOV 37H, #'L'
+	MOV 38H, #' '
+	MOV 39H, #'G'
+	MOV 3AH, #'O'
+	MOV 3BH, #'D'
+	MOV 30H, #33H
+	MOV 31H, #09H
+	MOV 32H, #0H
+	MOV R6, #0H
+	RET
+
+AJST_FACIL:
+	MOV 30H, #33H
+	MOV 31H, #04H
+	RET
 SEQUENCIA_FACIL:
-	MOV 23H, #'2'
-	MOV 24H, #'8'
-	MOV 25H, #'1'
-	MOV 26H, #'2'
-	MOV 20H, #23H
-	MOV 21H, #04H
-	MOV 22H, #06H
+	MOV 33H, #'2'
+	MOV 34H, #'8'
+	MOV 35H, #'1'
+	MOV 36H, #'2'
+	ACALL AJST_FACIL
+	MOV 32H, #06H
 	RET
-
+AJST_MEDIO:
+	MOV 30H, #33H
+	MOV 31H, #06H
+	RET
 SEQUENCIA_MEDIO:
-	MOV 23H, #'2'
-	MOV 24H, #'7'
-	MOV 25H, #'0'
-	MOV 26H, #'1'
-	MOV 27H, #'2'
-	MOV 28H, #'8'
-	MOV 20H, #23H
-	MOV 21H, #06H
-	MOV 22H, #05H
+	MOV 33H, #'2'
+	MOV 34H, #'7'
+	MOV 35H, #'0'
+	MOV 36H, #'1'
+	MOV 37H, #'2'
+	MOV 38H, #'8'
+	ACALL AJST_MEDIO
+	MOV 32H, #05H
 	RET
-
+AJST_DIFICIL:
+	MOV 30H, #33H
+	MOV 31H, #08H
+	RET
 SEQUENCIA_DIFICIL:
-	MOV 23H, #'1'
-	MOV 24H, #'5'
-	MOV 25H, #'0'
-	MOV 26H, #'7'
-	MOV 27H, #'2'
-	MOV 28H, #'0'
-	MOV 29H, #'2'
-	MOV 2AH, #'3'
-	MOV 20H, #23H
-	MOV 21H, #08H
-	MOV 22H, #04H
+	MOV 33H, #'1'
+	MOV 34H, #'5'
+	MOV 35H, #'0'
+	MOV 36H, #'7'
+	MOV 37H, #'2'
+	MOV 38H, #'0'
+	MOV 39H, #'2'
+	MOV 3AH, #'3'
+	ACALL AJST_MEDIO
+	MOV 32H, #04H
+	RET
+AJST_GOD:
+	MOV 30H, #33H
+	MOV 31H, #0AH
+	RET
+SEQUENCIA_GOD:
+	MOV 33H, #'9'
+	MOV 34H, #'6'
+	MOV 35H, #'8'
+	MOV 36H, #'8'
+	MOV 37H, #'2'
+	MOV 38H, #'5'
+	MOV 39H, #'3'
+	MOV 3AH, #'7'
+	MOV 3BH, #'1'
+	MOV 3CH, #'4'
+	ACALL AJST_GOD
+	MOV 32H, #03H
 	RET
 
-SEQUENCIA_GOD:
-	MOV 23H, #'9'
-	MOV 24H, #'6'
-	MOV 25H, #'8'
-	MOV 26H, #'8'
-	MOV 27H, #'2'
-	MOV 28H, #'5'
-	MOV 29H, #'3'
-	MOV 2AH, #'7'
-	MOV 2BH, #'1'
-	MOV 2CH, #'4'
-	MOV 20H, #23H
-	MOV 21H, #0AH
-	MOV 22H, #03H
+
+LIMPAR_DISPLAY:
+	MOV 33H, #' '
+	MOV 34H, #' '
+	MOV 35H, #' '
+	MOV 36H, #' '
+	MOV 37H, #' '
+	MOV 38H, #' '
+	MOV 39H, #' '
+	MOV 3AH, #' '
+	MOV 3BH, #' '
+	MOV 3CH, #' '
+	MOV 3DH, #' '
+	MOV 3EH, #' '
+	MOV 3FH, #' '
+	MOV 40H, #' '
+	MOV 41H, #' '
+	MOV 42H, #' '
+	MOV 30H, #33H
+	MOV 31H, #10H
+	MOV 32H, #0H
 	RET
+
 
 READ_SEQUENCIAS:
-	MOV R0, 20H
-	MOV R1, 21H
-	MOV A, 22H
+	MOV R0, 30H
+	MOV R1, 31H
+	MOV A, 32H
 	ACALL posicionaCursor
 ROT:
 	MOV A, @R0
@@ -82,6 +267,27 @@ ROT:
 	INC R0
 	DJNZ R1, ROT
 	RET
+
+
+NEW_DELAY:
+	MOV R7, #0FFH
+	DJNZ R7, $
+	MOV R7, #0FFH
+	DJNZ R7, $
+	MOV R7, #0FFH
+	DJNZ R7, $
+	RET
+
+
+USUARIO_DIGITA:
+	MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
+	MOV PCON, #80h ;set o bit SMOD 
+	MOV TMOD, #20H ;CT1 no modo 2 
+	MOV TH1, #243 ;valor para a recarga 
+	MOV TL1, #243 ;valor para a primeira contagem
+	MOV IE,#90H ; Habilita interrupção serial
+	SETB TR1 ;liga o contador/temporizador 1 
+	JMP $
 
 
 ; initialise the display
@@ -185,6 +391,7 @@ sendCharacter:
 	CALL delay			; wait for BF to clear
 	RET
 
+
 ;Posiciona o cursor na linha e coluna desejada.
 ;Escreva no Acumulador o valor de endereço da linha e coluna.
 ;|--------------------------------------------------------------------------------------|
@@ -234,29 +441,6 @@ retornaCursor:
 	CLR P1.7		; |
 	CLR P1.6		; |
 	SETB P1.5		; |
-	SETB P1.4		; | low nibble set
-
-	SETB EN		; |
-	CLR EN		; | negative edge on E
-
-	CALL delay		; wait for BF to clear
-	RET
-
-
-;Limpa o display
-clearDisplay:
-	CLR RS	      ; clear RS - indicates that instruction is being sent to module
-	CLR P1.7		; |
-	CLR P1.6		; |
-	CLR P1.5		; |
-	CLR P1.4		; | high nibble set
-
-	SETB EN		; |
-	CLR EN		; | negative edge on E
-
-	CLR P1.7		; |
-	CLR P1.6		; |
-	CLR P1.5		; |
 	SETB P1.4		; | low nibble set
 
 	SETB EN		; |
