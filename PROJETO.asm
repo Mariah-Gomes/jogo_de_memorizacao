@@ -67,7 +67,7 @@ START:
 	ACALL posicionaCursor
 	MOV DPTR, #LIMPAR_DISPLAY
 	ACALL escreveStringROM
-	;ACALL USUARIO_DIGITA
+	ACALL USUARIO_DIGITA_MEDIO
 
 ;DIFICIL
 	MOV A, #00H
@@ -291,6 +291,69 @@ ERROU_FACIL:
 	JMP CONT_CONT_FACIL
 RODANDO_FACIL:
 	JMP LOOP_FACIL
+
+
+USUARIO_DIGITA_MEDIO:
+	MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
+	MOV PCON, #80h ;set o bit SMOD 
+	MOV TMOD, #20H ;CT1 no modo 2 
+	MOV TH1, #243 ;valor para a recarga 
+	MOV TL1, #243 ;valor para a primeira contagem
+	MOV IE,#90H ; Habilita interrupção serial
+	SETB TR1 ;liga o contador/temporizador 1 
+	MOV R0, #50H
+LOOP_MEDIO:
+	CJNE R0, #56h, RODANDO_MEDIO
+	MOV R2, #0H
+	MOV R3, #0H 
+	MOV R0, #33H
+	MOV R1, #50H
+CONT_CONT_MEDIO:
+	CJNE R2, #6H, CONT_MEDIO
+	CJNE R3, #0H, FALHOU_MEDIO
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #ACERTOU
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #PROX_NIVEL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	RET
+FALHOU_MEDIO:
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #FALHOU_NIVEL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	JMP START
+	;CRIAR UM LOOP PARA APERTAR UM BOTÃO
+;E COMEÇAR O JOGO DE NOVO (LA NO COMEÇO)
+CONT_MEDIO:
+	MOV A, @R0
+	MOV B, @R1
+	CJNE A, B, ERROU_MEDIO
+	INC R0
+	INC R1
+	INC R2
+	JMP CONT_CONT_MEDIO
+ERROU_MEDIO:
+	INC R2
+	INC R3
+	JMP CONT_CONT_MEDIO
+RODANDO_MEDIO:
+	JMP LOOP_MEDIO
 
 
 escreveStringROM:
