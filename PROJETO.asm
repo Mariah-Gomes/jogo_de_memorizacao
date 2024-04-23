@@ -7,157 +7,138 @@ org 0000h
 	LJMP START
 
 org 023H
-MOV A,SBUF ; REALIZA A LEITURA DO BYTE RECEBIDO
-MOV 50h, A ; ESCREVE O VALOR NO ENDEREÇO 30H
-CLR RI ; RESETA RI PARA RECEBER NOVO BYTE
-RETI
+	MOV A,SBUF ; REALIZA A LEITURA DO BYTE RECEBIDO
+	MOV @R0, A ; ESCREVE O VALOR NO ENDEREÃ‡O 30H
+	CLR RI ; RESETA RI PARA RECEBER NOVO BYTE
+	INC R0
+	RETI
+
+PERDEU:
+	JMP $
+
 
 org 0070h
 START:
 	ACALL lcd_init
 
-	ACALL BEM_VINDO
-	ACALL READ_SEQUENCIAS
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #BEM_VINDO
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 	
-	ACALL NIVEL_FACIL
-	ACALL READ_SEQUENCIAS
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #NIVEL_FACIL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 	ACALL SEQUENCIA_FACIL
 	ACALL READ_SEQUENCIAS
+	ACALL AJST_FACIL
 	ACALL NEW_DELAY
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
-	ACALL USUARIO_DIGITA
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	ACALL USUARIO_DIGITA_FACIL
 
-	ACALL NIVEL_MEDIO
-	ACALL READ_SEQUENCIAS
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+MEDIO:
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #NIVEL_MEDIO
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 	ACALL SEQUENCIA_MEDIO
 	ACALL READ_SEQUENCIAS
+	ACALL AJST_MEDIO
 	ACALL NEW_DELAY
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	;ACALL USUARIO_DIGITA
 
-	ACALL NIVEL_DIFICIL
-	ACALL READ_SEQUENCIAS
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #NIVEL_DIFICIL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 	ACALL SEQUENCIA_DIFICIL
 	ACALL READ_SEQUENCIAS
+	ACALL AJST_DIFICIL
 	ACALL NEW_DELAY
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	;ACALL USUARIO_DIGITA
 
-	ACALL NIVEL_GOD
-	ACALL READ_SEQUENCIAS
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #NIVEL_GOD
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 	ACALL SEQUENCIA_GOD
 	ACALL READ_SEQUENCIAS
+	ACALL AJST_GOD
 	ACALL NEW_DELAY
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	;ACALL USUARIO_DIGITA
 
 	JMP $
 
+
 BEM_VINDO:
-	MOV 33H, #'B'
-	MOV 34H, #'E'
-	MOV 35H, #'M'
-	MOV 36H, #'-'
-	MOV 37H, #'V'
-	MOV 38H, #'I'
-	MOV 39H, #'N'
-	MOV 3AH, #'D'
-	MOV 3BH, #'O'
-	MOV 30H, #33H
-	MOV 31H, #09H
-	MOV 32H, #0H
-	RET
+	DB "BEM-VINDO"
+	DB 00H
 
 
 NIVEL_FACIL:
-	MOV 33H, #'N'
-	MOV 34H, #'I'
-	MOV 35H, #'V'
-	MOV 36H, #'E'
-	MOV 37H, #'L'
-	MOV 38H, #' '
-	MOV 39H, #'F'
-	MOV 3AH, #'A'
-	MOV 3BH, #'C'
-	MOV 3CH, #'I'
-	MOV 3DH, #'L'
-	MOV 30H, #33H
-	MOV 31H, #0BH
-	MOV 32H, #0H
-	MOV R6, #0H
-	RET 
+	DB "NIVEL FACIL"
+	DB 00H
 NIVEL_MEDIO:
-	MOV 33H, #'N'
-	MOV 34H, #'I'
-	MOV 35H, #'V'
-	MOV 36H, #'E'
-	MOV 37H, #'L'
-	MOV 38H, #' '
-	MOV 39H, #'M'
-	MOV 3AH, #'E'
-	MOV 3BH, #'D'
-	MOV 3CH, #'I'
-	MOV 3DH, #'O'
-	MOV 30H, #33H
-	MOV 31H, #0BH
-	MOV 32H, #0H
-	MOV R6, #0H
-	RET
+	DB "NIVEL MEDIO"
+	DB 00H
 NIVEL_DIFICIL:
-	MOV 33H, #'N'
-	MOV 34H, #'I'
-	MOV 35H, #'V'
-	MOV 36H, #'E'
-	MOV 37H, #'L'
-	MOV 38H, #' '
-	MOV 39H, #'D'
-	MOV 3AH, #'I'
-	MOV 3BH, #'F'
-	MOV 3CH, #'I'
-	MOV 3DH, #'C'
-	MOV 3EH, #'I'
-	MOV 3FH, #'L'
-	MOV 30H, #33H
-	MOV 31H, #0DH
-	MOV 32H, #0H
-	MOV R6, #0H
-	RET
+	DB "NIVEL DIFICIL"
+	DB 00H
 NIVEL_GOD:
-	MOV 33H, #'N'
-	MOV 34H, #'I'
-	MOV 35H, #'V'
-	MOV 36H, #'E'
-	MOV 37H, #'L'
-	MOV 38H, #' '
-	MOV 39H, #'G'
-	MOV 3AH, #'O'
-	MOV 3BH, #'D'
+	DB "NIVEL GOD"
+	DB 00H
+
+AJST_FACIL:
 	MOV 30H, #33H
-	MOV 31H, #09H
-	MOV 32H, #0H
-	MOV R6, #0H
+	MOV 31H, #04H
 	RET
-
-
 SEQUENCIA_FACIL:
 	MOV 33H, #'2'
 	MOV 34H, #'8'
 	MOV 35H, #'1'
 	MOV 36H, #'2'
-	MOV 30H, #33H
-	MOV 31H, #04H
+	ACALL AJST_FACIL
 	MOV 32H, #06H
+	RET
+AJST_MEDIO:
+	MOV 30H, #33H
+	MOV 31H, #06H
 	RET
 SEQUENCIA_MEDIO:
 	MOV 33H, #'2'
@@ -166,9 +147,12 @@ SEQUENCIA_MEDIO:
 	MOV 36H, #'1'
 	MOV 37H, #'2'
 	MOV 38H, #'8'
-	MOV 30H, #33H
-	MOV 31H, #06H
+	ACALL AJST_MEDIO
 	MOV 32H, #05H
+	RET
+AJST_DIFICIL:
+	MOV 30H, #33H
+	MOV 31H, #08H
 	RET
 SEQUENCIA_DIFICIL:
 	MOV 33H, #'1'
@@ -179,9 +163,12 @@ SEQUENCIA_DIFICIL:
 	MOV 38H, #'0'
 	MOV 39H, #'2'
 	MOV 3AH, #'3'
-	MOV 30H, #33H
-	MOV 31H, #08H
+	ACALL AJST_MEDIO
 	MOV 32H, #04H
+	RET
+AJST_GOD:
+	MOV 30H, #33H
+	MOV 31H, #0AH
 	RET
 SEQUENCIA_GOD:
 	MOV 33H, #'9'
@@ -194,33 +181,14 @@ SEQUENCIA_GOD:
 	MOV 3AH, #'7'
 	MOV 3BH, #'1'
 	MOV 3CH, #'4'
-	MOV 30H, #33H
-	MOV 31H, #0AH
+	ACALL AJST_GOD
 	MOV 32H, #03H
 	RET
 
 
 LIMPAR_DISPLAY:
-	MOV 33H, #' '
-	MOV 34H, #' '
-	MOV 35H, #' '
-	MOV 36H, #' '
-	MOV 37H, #' '
-	MOV 38H, #' '
-	MOV 39H, #' '
-	MOV 3AH, #' '
-	MOV 3BH, #' '
-	MOV 3CH, #' '
-	MOV 3DH, #' '
-	MOV 3EH, #' '
-	MOV 3FH, #' '
-	MOV 40H, #' '
-	MOV 41H, #' '
-	MOV 42H, #' '
-	MOV 30H, #33H
-	MOV 31H, #10H
-	MOV 32H, #0H
-	RET
+	DB "                "
+	DB 00H
 
 
 READ_SEQUENCIAS:
@@ -246,15 +214,36 @@ NEW_DELAY:
 	RET
 
 
-USUARIO_DIGITA:
-MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
-MOV PCON, #80h ;set o bit SMOD 
-MOV TMOD, #20H ;CT1 no modo 2 
-MOV TH1, #243 ;valor para a recarga 
-MOV TL1, #243 ;valor para a primeira contagem
-MOV IE,#90H ; Habilita interrupção serial
-SETB TR1 ;liga o contador/temporizador 1 
-JMP $
+USUARIO_DIGITA_FACIL:
+	MOV SCON, #50H ;porta serial no modo 1 e habilita a recepÃ§Ã£o
+	MOV PCON, #80h ;set o bit SMOD 
+	MOV TMOD, #20H ;CT1 no modo 2 
+	MOV TH1, #243 ;valor para a recarga 
+	MOV TL1, #243 ;valor para a primeira contagem
+	MOV IE,#90H ; Habilita interrupÃ§Ã£o serial
+	SETB TR1 ;liga o contador/temporizador 1 
+	MOV R0, #50H
+LOOP_FACIL:
+	CJNE R0, #55h, RODANDO_FACIL
+	;COMPARAÃ‡ÃƒO
+	JMP MEDIO
+RODANDO_FACIL:
+	JMP LOOP_FACIL
+
+escreveStringROM:
+  MOV R1, #00h
+	; Inicia a escrita da String no Display LCD
+loop:
+  MOV A, R1
+	MOVC A,@A+DPTR 	 ;lï¿½ da memï¿½ria de programa
+	JZ finish		; if A is 0, then end of data has been reached - jump out of loop
+	ACALL sendCharacter	; send data in A to LCD module
+	INC R1			; point to next piece of data
+   MOV A, R1
+	JMP loop		; repeat
+finish:
+	RET
+
 
 ; initialise the display
 ; see instruction set for details
@@ -357,8 +346,9 @@ sendCharacter:
 	CALL delay			; wait for BF to clear
 	RET
 
+
 ;Posiciona o cursor na linha e coluna desejada.
-;Escreva no Acumulador o valor de endereço da linha e coluna.
+;Escreva no Acumulador o valor de endereÃ§o da linha e coluna.
 ;|--------------------------------------------------------------------------------------|
 ;|linha 1 | 00 | 01 | 02 | 03 | 04 |05 | 06 | 07 | 08 | 09 |0A | 0B | 0C | 0D | 0E | 0F |
 ;|linha 2 | 40 | 41 | 42 | 43 | 44 |45 | 46 | 47 | 48 | 49 |4A | 4B | 4C | 4D | 4E | 4F |
@@ -392,7 +382,7 @@ posicionaCursor:
 	RET
 
 
-;Retorna o cursor para primeira posição sem limpar o display
+;Retorna o cursor para primeira posiÃ§Ã£o sem limpar o display
 retornaCursor:
 	CLR RS	      ; clear RS - indicates that instruction is being sent to module
 	CLR P1.7		; |
@@ -413,6 +403,7 @@ retornaCursor:
 
 	CALL delay		; wait for BF to clear
 	RET
+
 
 delay:
 	MOV R7, #50
