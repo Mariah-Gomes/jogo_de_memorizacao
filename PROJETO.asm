@@ -4,7 +4,7 @@
 
 
 org 0000h
-	LJMP START
+	JMP BEFORE_START
 
 org 023H
 	MOV A,SBUF ; REALIZA A LEITURA DO BYTE RECEBIDO
@@ -13,14 +13,27 @@ org 023H
 	INC R0
 	RETI
 
-PERDEU:
-	JMP $
-
+org 0060h
+BEFORE_START:
+	MOV SP, #7
+	ACALL lcd_init
+CONDICAO:
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #DIGITE_UM
+	ACALL escreveStringROM
+	ACALL USUARIO_DIGITA_START
 
 org 0070h
 START:
-	MOV SP, #7
-	ACALL lcd_init
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 
 	MOV A, #00H
 	ACALL posicionaCursor
@@ -48,6 +61,10 @@ START:
 	ACALL posicionaCursor
 	MOV DPTR, #LIMPAR_DISPLAY
 	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #RESPONDA
+	ACALL escreveStringROM
 	ACALL USUARIO_DIGITA_FACIL
 
 ;MEDIO
@@ -66,6 +83,10 @@ START:
 	MOV A, #00H
 	ACALL posicionaCursor
 	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #RESPONDA
 	ACALL escreveStringROM
 	ACALL USUARIO_DIGITA_MEDIO
 
@@ -86,6 +107,10 @@ START:
 	ACALL posicionaCursor
 	MOV DPTR, #LIMPAR_DISPLAY
 	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #RESPONDA
+	ACALL escreveStringROM
 	ACALL USUARIO_DIGITA_DIFICIL
 
 ;GOD
@@ -105,16 +130,20 @@ START:
 	ACALL posicionaCursor
 	MOV DPTR, #LIMPAR_DISPLAY
 	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #RESPONDA
+	ACALL escreveStringROM
 	ACALL USUARIO_DIGITA_GOD
 
 	JMP $
 
-
-BEM_VINDO:
-	DB "BEM-VINDO"
+DIGITE_UM:
+	DB "DIGITE 1..."
 	DB 00H
-
-
+BEM_VINDO:
+	DB "BEM-VINDO!!!"
+	DB 00H
 NIVEL_FACIL:
 	DB "NIVEL FACIL"
 	DB 00H
@@ -127,18 +156,24 @@ NIVEL_DIFICIL:
 NIVEL_GOD:
 	DB "NIVEL GOD"
 	DB 00H
-
+RESPONDA:
+	DB "RESPONDA ->"
+	DB 00H
 ACERTOU:
-	DB "ACERTOU"
+	DB "ACERTOU!"
 	DB 00H
 PROX_NIVEL:
-	DB "PROXIMO NIVEL"
+	DB "PROXIMO NIVEL..."
 	DB 00H
 FALHOU_NIVEL:
-	DB "PERDEU TROUXA"
+	DB "PERDEU!"
 	DB 00H
-
-
+VENCEU:
+	DB "VENCEU!"
+	DB 00H
+PARABENS:
+	DB "PARABENS!"
+	DB 00H
 
 AJST_FACIL:
 	MOV 30H, #33H
@@ -230,6 +265,27 @@ NEW_DELAY:
 	RET
 
 
+USUARIO_DIGITA_START:
+	MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
+	MOV PCON, #80h ;set o bit SMOD 
+	MOV TMOD, #20H ;CT1 no modo 2 
+	MOV TH1, #243 ;valor para a recarga 
+	MOV TL1, #243 ;valor para a primeira contagem
+	MOV IE,#90H ; Habilita interrupção serial
+	SETB TR1 ;liga o contador/temporizador 1 
+	MOV R0, #50H
+LOOP_START:
+	CJNE R0, #51h, RODANDO_START
+	MOV R1, #50H
+	MOV A, @R1
+	CJNE A, #31H, FALHOU_START
+	RET
+FALHOU_START:
+	JMP CONDICAO
+RODANDO_START:
+	JMP LOOP_START
+
+
 USUARIO_DIGITA_FACIL:
 	MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
 	MOV PCON, #80h ;set o bit SMOD 
@@ -250,6 +306,10 @@ CONT_CONT_FACIL:
 	CJNE R3, #0H, FALHOU_FACIL
 	MOV A, #00H
 	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
 	MOV DPTR, #ACERTOU
 	ACALL escreveStringROM
 	MOV A, #00H
@@ -268,15 +328,17 @@ CONT_CONT_FACIL:
 FALHOU_FACIL:
 	MOV A, #00H
 	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
 	MOV DPTR, #FALHOU_NIVEL
 	ACALL escreveStringROM
 	MOV A, #00H
 	ACALL posicionaCursor
 	MOV DPTR, #LIMPAR_DISPLAY
 	ACALL escreveStringROM
-	JMP START
-	;CRIAR UM LOOP PARA APERTAR UM BOTÃO
-;E COMEÇAR O JOGO DE NOVO (LA NO COMEÇO)
+	JMP CONDICAO
 CONT_FACIL:
 	MOV A, @R0
 	MOV B, @R1
@@ -313,6 +375,10 @@ CONT_CONT_MEDIO:
 	CJNE R3, #0H, FALHOU_MEDIO
 	MOV A, #00H
 	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
 	MOV DPTR, #ACERTOU
 	ACALL escreveStringROM
 	MOV A, #00H
@@ -331,15 +397,17 @@ CONT_CONT_MEDIO:
 FALHOU_MEDIO:
 	MOV A, #00H
 	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
 	MOV DPTR, #FALHOU_NIVEL
 	ACALL escreveStringROM
 	MOV A, #00H
 	ACALL posicionaCursor
 	MOV DPTR, #LIMPAR_DISPLAY
 	ACALL escreveStringROM
-	JMP START
-	;CRIAR UM LOOP PARA APERTAR UM BOTÃO
-;E COMEÇAR O JOGO DE NOVO (LA NO COMEÇO)
+	JMP CONDICAO
 CONT_MEDIO:
 	MOV A, @R0
 	MOV B, @R1
@@ -376,6 +444,10 @@ CONT_CONT_DIFICIL:
 	CJNE R3, #0H, FALHOU_DIFICIL
 	MOV A, #00H
 	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
 	MOV DPTR, #ACERTOU
 	ACALL escreveStringROM
 	MOV A, #00H
@@ -394,15 +466,17 @@ CONT_CONT_DIFICIL:
 FALHOU_DIFICIL:
 	MOV A, #00H
 	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
 	MOV DPTR, #FALHOU_NIVEL
 	ACALL escreveStringROM
 	MOV A, #00H
 	ACALL posicionaCursor
 	MOV DPTR, #LIMPAR_DISPLAY
 	ACALL escreveStringROM
-	JMP START
-	;CRIAR UM LOOP PARA APERTAR UM BOTÃO
-;E COMEÇAR O JOGO DE NOVO (LA NO COMEÇO)
+	JMP CONDICAO
 CONT_DIFICIL:
 	MOV A, @R0
 	MOV B, @R1
@@ -439,6 +513,10 @@ CONT_CONT_GOD:
 	CJNE R3, #0H, FALHOU_GOD
 	MOV A, #00H
 	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
 	MOV DPTR, #ACERTOU
 	ACALL escreveStringROM
 	MOV A, #00H
@@ -447,14 +525,26 @@ CONT_CONT_GOD:
 	ACALL escreveStringROM
 	MOV A, #00H
 	ACALL posicionaCursor
-	MOV DPTR, #PROX_NIVEL
+	MOV DPTR, #VENCEU
 	ACALL escreveStringROM
 	MOV A, #00H
 	ACALL posicionaCursor
 	MOV DPTR, #LIMPAR_DISPLAY
 	ACALL escreveStringROM
-	RET
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #PARABENS
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	JMP CONDICAO
 FALHOU_GOD:
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 	MOV A, #00H
 	ACALL posicionaCursor
 	MOV DPTR, #FALHOU_NIVEL
@@ -463,9 +553,7 @@ FALHOU_GOD:
 	ACALL posicionaCursor
 	MOV DPTR, #LIMPAR_DISPLAY
 	ACALL escreveStringROM
-	JMP START
-	;CRIAR UM LOOP PARA APERTAR UM BOTÃO
-;E COMEÇAR O JOGO DE NOVO (LA NO COMEÇO)
+	JMP CONDICAO
 CONT_GOD:
 	MOV A, @R0
 	MOV B, @R1
@@ -527,7 +615,6 @@ lcd_init:
 				; function set low nibble sent
 	CALL delay		; wait for BF to clear
 
-
 ; entry mode set
 ; set to increment with no shift
 	CLR P1.7		; |
@@ -545,7 +632,6 @@ lcd_init:
 	CLR EN		; | negative edge on E
 
 	CALL delay		; wait for BF to clear
-
 
 ; display on/off control
 ; the display is turned on, the cursor is turned on and blinking is turned on
