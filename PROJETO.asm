@@ -4,172 +4,148 @@
 
 
 org 0000h
-	LJMP START
+	JMP BEFORE_START
 
 org 023H
-	ACALL COMPARAR
+	MOV A,SBUF ; REALIZA A LEITURA DO BYTE RECEBIDO
+	MOV @R0, A ; ESCREVE O VALOR NO ENDEREÇO 30H
+	CLR RI ; RESETA RI PARA RECEBER NOVO BYTE
+	INC R0
 	RETI
 
-COMPARAR:
-	MOV R0, 30H
-	MOV R1, 31H
-ROT2:
-	MOV A,SBUF ; REALIZA A LEITURA DO BYTE RECEBIDO
-	MOV 50h, A ; ESCREVE O VALOR NO ENDEREÇO 30H
-	CLR RI ; RESETA RI PARA RECEBER NOVO BYTE
-	MOV A, @R0
-	CJNE A, 50H, PERDEU
-	INC R0
-	DJNZ R1, ROT2
-	RET
-
-PERDEU:
-	JMP $
-
+org 0060h
+BEFORE_START:
+	MOV SP, #7
+	ACALL lcd_init
+CONDICAO:
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #DIGITE_UM
+	ACALL escreveStringROM
+	ACALL USUARIO_DIGITA_START
 
 org 0070h
 START:
-	ACALL lcd_init
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 
-	ACALL BEM_VINDO
-	ACALL READ_SEQUENCIAS
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #BEM_VINDO
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 	
-	ACALL NIVEL_FACIL
-	ACALL READ_SEQUENCIAS
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+;FACIL
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #NIVEL_FACIL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 	ACALL SEQUENCIA_FACIL
 	ACALL READ_SEQUENCIAS
 	ACALL AJST_FACIL
 	ACALL NEW_DELAY
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
-	ACALL USUARIO_DIGITA
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	ACALL USUARIO_DIGITA_FACIL
 
-	ACALL NIVEL_MEDIO
-	ACALL READ_SEQUENCIAS
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+;MEDIO
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #NIVEL_MEDIO
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 	ACALL SEQUENCIA_MEDIO
 	ACALL READ_SEQUENCIAS
 	ACALL AJST_MEDIO
 	ACALL NEW_DELAY
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
-	ACALL USUARIO_DIGITA
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	ACALL USUARIO_DIGITA_MEDIO
 
-	ACALL NIVEL_DIFICIL
-	ACALL READ_SEQUENCIAS
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+;DIFICIL
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #NIVEL_DIFICIL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 	ACALL SEQUENCIA_DIFICIL
 	ACALL READ_SEQUENCIAS
 	ACALL AJST_DIFICIL
 	ACALL NEW_DELAY
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
-	ACALL USUARIO_DIGITA
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	ACALL USUARIO_DIGITA_DIFICIL
 
-	ACALL NIVEL_GOD
-	ACALL READ_SEQUENCIAS
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
+;GOD
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #NIVEL_GOD
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
 	ACALL SEQUENCIA_GOD
 	ACALL READ_SEQUENCIAS
 	ACALL AJST_GOD
 	ACALL NEW_DELAY
-	ACALL LIMPAR_DISPLAY
-	ACALL READ_SEQUENCIAS
-	ACALL USUARIO_DIGITA
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	ACALL USUARIO_DIGITA_GOD
 
 	JMP $
 
+DIGITE_UM:
+	DB "DIGITE 1"
+	DB 00H
 BEM_VINDO:
-	MOV 33H, #'B'
-	MOV 34H, #'E'
-	MOV 35H, #'M'
-	MOV 36H, #'-'
-	MOV 37H, #'V'
-	MOV 38H, #'I'
-	MOV 39H, #'N'
-	MOV 3AH, #'D'
-	MOV 3BH, #'O'
-	MOV 30H, #33H
-	MOV 31H, #09H
-	MOV 32H, #0H
-	RET
-
-
+	DB "BEM-VINDO"
+	DB 00H
 NIVEL_FACIL:
-	MOV 33H, #'N'
-	MOV 34H, #'I'
-	MOV 35H, #'V'
-	MOV 36H, #'E'
-	MOV 37H, #'L'
-	MOV 38H, #' '
-	MOV 39H, #'F'
-	MOV 3AH, #'A'
-	MOV 3BH, #'C'
-	MOV 3CH, #'I'
-	MOV 3DH, #'L'
-	MOV 30H, #33H
-	MOV 31H, #0BH
-	MOV 32H, #0H
-	MOV R6, #0H
-	RET 
+	DB "NIVEL FACIL"
+	DB 00H
 NIVEL_MEDIO:
-	MOV 33H, #'N'
-	MOV 34H, #'I'
-	MOV 35H, #'V'
-	MOV 36H, #'E'
-	MOV 37H, #'L'
-	MOV 38H, #' '
-	MOV 39H, #'M'
-	MOV 3AH, #'E'
-	MOV 3BH, #'D'
-	MOV 3CH, #'I'
-	MOV 3DH, #'O'
-	MOV 30H, #33H
-	MOV 31H, #0BH
-	MOV 32H, #0H
-	MOV R6, #0H
-	RET
+	DB "NIVEL MEDIO"
+	DB 00H
 NIVEL_DIFICIL:
-	MOV 33H, #'N'
-	MOV 34H, #'I'
-	MOV 35H, #'V'
-	MOV 36H, #'E'
-	MOV 37H, #'L'
-	MOV 38H, #' '
-	MOV 39H, #'D'
-	MOV 3AH, #'I'
-	MOV 3BH, #'F'
-	MOV 3CH, #'I'
-	MOV 3DH, #'C'
-	MOV 3EH, #'I'
-	MOV 3FH, #'L'
-	MOV 30H, #33H
-	MOV 31H, #0DH
-	MOV 32H, #0H
-	MOV R6, #0H
-	RET
+	DB "NIVEL DIFICIL"
+	DB 00H
 NIVEL_GOD:
-	MOV 33H, #'N'
-	MOV 34H, #'I'
-	MOV 35H, #'V'
-	MOV 36H, #'E'
-	MOV 37H, #'L'
-	MOV 38H, #' '
-	MOV 39H, #'G'
-	MOV 3AH, #'O'
-	MOV 3BH, #'D'
-	MOV 30H, #33H
-	MOV 31H, #09H
-	MOV 32H, #0H
-	MOV R6, #0H
-	RET
+	DB "NIVEL GOD"
+	DB 00H
+ACERTOU:
+	DB "ACERTOU"
+	DB 00H
+PROX_NIVEL:
+	DB "PROXIMO NIVEL"
+	DB 00H
+FALHOU_NIVEL:
+	DB "PERDEU TROUXA"
+	DB 00H
+
 
 AJST_FACIL:
 	MOV 30H, #33H
@@ -210,7 +186,7 @@ SEQUENCIA_DIFICIL:
 	MOV 38H, #'0'
 	MOV 39H, #'2'
 	MOV 3AH, #'3'
-	ACALL AJST_MEDIO
+	ACALL AJST_DIFICIL
 	MOV 32H, #04H
 	RET
 AJST_GOD:
@@ -234,26 +210,8 @@ SEQUENCIA_GOD:
 
 
 LIMPAR_DISPLAY:
-	MOV 33H, #' '
-	MOV 34H, #' '
-	MOV 35H, #' '
-	MOV 36H, #' '
-	MOV 37H, #' '
-	MOV 38H, #' '
-	MOV 39H, #' '
-	MOV 3AH, #' '
-	MOV 3BH, #' '
-	MOV 3CH, #' '
-	MOV 3DH, #' '
-	MOV 3EH, #' '
-	MOV 3FH, #' '
-	MOV 40H, #' '
-	MOV 41H, #' '
-	MOV 42H, #' '
-	MOV 30H, #33H
-	MOV 31H, #10H
-	MOV 32H, #0H
-	RET
+	DB "                "
+	DB 00H
 
 
 READ_SEQUENCIAS:
@@ -279,7 +237,7 @@ NEW_DELAY:
 	RET
 
 
-USUARIO_DIGITA:
+USUARIO_DIGITA_START:
 	MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
 	MOV PCON, #80h ;set o bit SMOD 
 	MOV TMOD, #20H ;CT1 no modo 2 
@@ -287,7 +245,284 @@ USUARIO_DIGITA:
 	MOV TL1, #243 ;valor para a primeira contagem
 	MOV IE,#90H ; Habilita interrupção serial
 	SETB TR1 ;liga o contador/temporizador 1 
-	JMP $
+	MOV R0, #50H
+LOOP_START:
+	CJNE R0, #51h, RODANDO_START
+	MOV R1, #50H
+	MOV A, @R1
+	CJNE A, #31H, FALHOU_START
+	RET
+FALHOU_START:
+	JMP CONDICAO
+RODANDO_START:
+	JMP LOOP_START
+
+
+USUARIO_DIGITA_FACIL:
+	MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
+	MOV PCON, #80h ;set o bit SMOD 
+	MOV TMOD, #20H ;CT1 no modo 2 
+	MOV TH1, #243 ;valor para a recarga 
+	MOV TL1, #243 ;valor para a primeira contagem
+	MOV IE,#90H ; Habilita interrupção serial
+	SETB TR1 ;liga o contador/temporizador 1 
+	MOV R0, #50H
+LOOP_FACIL:
+	CJNE R0, #54h, RODANDO_FACIL
+	MOV R2, #0H
+	MOV R3, #0H 
+	MOV R0, #33H
+	MOV R1, #50H
+CONT_CONT_FACIL:
+	CJNE R2, #4H, CONT_FACIL
+	CJNE R3, #0H, FALHOU_FACIL
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #ACERTOU
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #PROX_NIVEL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	RET
+FALHOU_FACIL:
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #FALHOU_NIVEL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	JMP CONDICAO
+	;CRIAR UM LOOP PARA APERTAR UM BOTÃO
+;E COMEÇAR O JOGO DE NOVO (LA NO COMEÇO)
+CONT_FACIL:
+	MOV A, @R0
+	MOV B, @R1
+	CJNE A, B, ERROU_FACIL
+	INC R0
+	INC R1
+	INC R2
+	JMP CONT_CONT_FACIL
+ERROU_FACIL:
+	INC R2
+	INC R3
+	JMP CONT_CONT_FACIL
+RODANDO_FACIL:
+	JMP LOOP_FACIL
+
+
+USUARIO_DIGITA_MEDIO:
+	MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
+	MOV PCON, #80h ;set o bit SMOD 
+	MOV TMOD, #20H ;CT1 no modo 2 
+	MOV TH1, #243 ;valor para a recarga 
+	MOV TL1, #243 ;valor para a primeira contagem
+	MOV IE,#90H ; Habilita interrupção serial
+	SETB TR1 ;liga o contador/temporizador 1 
+	MOV R0, #50H
+LOOP_MEDIO:
+	CJNE R0, #56h, RODANDO_MEDIO
+	MOV R2, #0H
+	MOV R3, #0H 
+	MOV R0, #33H
+	MOV R1, #50H
+CONT_CONT_MEDIO:
+	CJNE R2, #6H, CONT_MEDIO
+	CJNE R3, #0H, FALHOU_MEDIO
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #ACERTOU
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #PROX_NIVEL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	RET
+FALHOU_MEDIO:
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #FALHOU_NIVEL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	JMP START
+	;CRIAR UM LOOP PARA APERTAR UM BOTÃO
+;E COMEÇAR O JOGO DE NOVO (LA NO COMEÇO)
+CONT_MEDIO:
+	MOV A, @R0
+	MOV B, @R1
+	CJNE A, B, ERROU_MEDIO
+	INC R0
+	INC R1
+	INC R2
+	JMP CONT_CONT_MEDIO
+ERROU_MEDIO:
+	INC R2
+	INC R3
+	JMP CONT_CONT_MEDIO
+RODANDO_MEDIO:
+	JMP LOOP_MEDIO
+
+
+USUARIO_DIGITA_DIFICIL:
+	MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
+	MOV PCON, #80h ;set o bit SMOD 
+	MOV TMOD, #20H ;CT1 no modo 2 
+	MOV TH1, #243 ;valor para a recarga 
+	MOV TL1, #243 ;valor para a primeira contagem
+	MOV IE,#90H ; Habilita interrupção serial
+	SETB TR1 ;liga o contador/temporizador 1 
+	MOV R0, #50H
+LOOP_DIFICIL:
+	CJNE R0, #58h, RODANDO_DIFICIL
+	MOV R2, #0H
+	MOV R3, #0H 
+	MOV R0, #33H
+	MOV R1, #50H
+CONT_CONT_DIFICIL:
+	CJNE R2, #8H, CONT_DIFICIL
+	CJNE R3, #0H, FALHOU_DIFICIL
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #ACERTOU
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #PROX_NIVEL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	RET
+FALHOU_DIFICIL:
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #FALHOU_NIVEL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	JMP START
+	;CRIAR UM LOOP PARA APERTAR UM BOTÃO
+;E COMEÇAR O JOGO DE NOVO (LA NO COMEÇO)
+CONT_DIFICIL:
+	MOV A, @R0
+	MOV B, @R1
+	CJNE A, B, ERROU_DIFICIL
+	INC R0
+	INC R1
+	INC R2
+	JMP CONT_CONT_DIFICIL
+ERROU_DIFICIL:
+	INC R2
+	INC R3
+	JMP CONT_CONT_DIFICIL
+RODANDO_DIFICIL:
+	JMP LOOP_DIFICIL
+
+
+USUARIO_DIGITA_GOD:
+	MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
+	MOV PCON, #80h ;set o bit SMOD 
+	MOV TMOD, #20H ;CT1 no modo 2 
+	MOV TH1, #243 ;valor para a recarga 
+	MOV TL1, #243 ;valor para a primeira contagem
+	MOV IE,#90H ; Habilita interrupção serial
+	SETB TR1 ;liga o contador/temporizador 1 
+	MOV R0, #50H
+LOOP_GOD:
+	CJNE R0, #5Ah, RODANDO_GOD
+	MOV R2, #0H
+	MOV R3, #0H 
+	MOV R0, #33H
+	MOV R1, #50H
+CONT_CONT_GOD:
+	CJNE R2, #0AH, CONT_GOD
+	CJNE R3, #0H, FALHOU_GOD
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #ACERTOU
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #PROX_NIVEL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	RET
+FALHOU_GOD:
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #FALHOU_NIVEL
+	ACALL escreveStringROM
+	MOV A, #00H
+	ACALL posicionaCursor
+	MOV DPTR, #LIMPAR_DISPLAY
+	ACALL escreveStringROM
+	JMP START
+	;CRIAR UM LOOP PARA APERTAR UM BOTÃO
+;E COMEÇAR O JOGO DE NOVO (LA NO COMEÇO)
+CONT_GOD:
+	MOV A, @R0
+	MOV B, @R1
+	CJNE A, B, ERROU_GOD
+	INC R0
+	INC R1
+	INC R2
+	JMP CONT_CONT_GOD
+ERROU_GOD:
+	INC R2
+	INC R3
+	JMP CONT_CONT_GOD
+RODANDO_GOD:
+	JMP LOOP_GOD
+
+
+escreveStringROM:
+  MOV R1, #00h
+	; Inicia a escrita da String no Display LCD
+loop:
+  MOV A, R1
+	MOVC A,@A+DPTR 	 ;l� da mem�ria de programa
+	JZ finish		; if A is 0, then end of data has been reached - jump out of loop
+	ACALL sendCharacter	; send data in A to LCD module
+	INC R1			; point to next piece of data
+   MOV A, R1
+	JMP loop		; repeat
+finish:
+	RET
 
 
 ; initialise the display
@@ -320,7 +555,6 @@ lcd_init:
 				; function set low nibble sent
 	CALL delay		; wait for BF to clear
 
-
 ; entry mode set
 ; set to increment with no shift
 	CLR P1.7		; |
@@ -338,7 +572,6 @@ lcd_init:
 	CLR EN		; | negative edge on E
 
 	CALL delay		; wait for BF to clear
-
 
 ; display on/off control
 ; the display is turned on, the cursor is turned on and blinking is turned on
