@@ -9,7 +9,6 @@ Neste projeto, decidimos realizar um jogo em Assembly onde o usuário possa visu
 
 ## Fluxograma
 ```mermaid
-```mermaid
 graph TD;
     A([Início]) --> B[[BEFORE_START]];
     B --> C[[lcd_init]];
