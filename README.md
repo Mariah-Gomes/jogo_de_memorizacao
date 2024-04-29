@@ -9,12 +9,11 @@ Neste projeto, decidimos realizar um jogo em Assembly onde o usuário possa visu
 
 ## Fluxograma
 ```mermaid
-flowchart LR
-sequenceDiagram
-A[Hard] -->|Text| B(Round)
-B --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
+graph TD;
+    A[Início] --> B[Passo 1];
+    B --> C[Passo 2];
+    B --> D[Fim];
+    C --> D;
 ```
 
 ## Código-fonte comentado
