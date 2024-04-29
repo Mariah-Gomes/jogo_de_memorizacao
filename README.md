@@ -30,6 +30,26 @@ graph TD;
     N --> |SIM|P{SE R3 == #0H};
     P --> |NÃO|O;
     P --> |SIM|Q[[START]];
+
+    Q --> R[[SEQUENCIA_FACIL]];
+    R --> S[[USUARIO_DIGITA_FACIL]];
+    S --> T[[LOOP_FACIL]];
+    T --> U{SE A == #ODH};
+    U --> |NÃO|V[[RODANDO_FACIL]];
+    V --> T;
+    U --> |SIM|W[[CONT_CONT_FACIL]];
+    W --> X{SE A == #0DH};
+    X --> |NÃO|Y[[CONT_FACIL]];
+    Y --> Z{SE A == B};
+    Z --> |NÃO|W;
+    Z --> |SIM|W;
+    X --> |SIM|AA{SE R2 == #0DH};
+    AA --> |NÃO|AB[[FALHOU_FACIL]];
+    AB --> C;
+    AA --> |SIM|AC{SE R3 == #0H};
+    AC --> |NÃO|AB;
+    AC --> |SIM|AD[NIVEL MEDIO];
+
 ```
 
 ## Código-fonte comentado
