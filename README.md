@@ -93,7 +93,22 @@ graph TD;
     BU --> BV[[escreveStringROM]];
     BV --> BW[[Condicao]];
     BF --> |SIM|BM{SE R3 == #0H};
-    
+    BM --> BX[[posicionaCursor]];
+    BX --> BY[Limpa o display];
+    BY --> BZ[[escreveStringROM]];
+    BZ --> CA[[posicionaCursor]];
+    CA --> CB[ACERTOU!];
+    CB --> CC[[escreveStringROM]];
+    CC --> CD[[posicionaCursor]];
+    CD --> CE[Limpa o display];
+    CE --> CF[[escreveStringROM]];
+    CF --> CG[[posicionaCursor]];
+    CG --> CH[PROXIMO NIVEL...];
+    CH --> CI[[escreveStringROM]];
+    CI --> CJ[[posicionaCursor]];
+    CJ --> CK[Limpa o display];
+    CK --> CL[[escreveStringROM]];
+    CL --> CM[[START]];
 
 ```
 
