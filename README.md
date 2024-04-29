@@ -10,7 +10,6 @@ Neste projeto, decidimos realizar um jogo em Assembly onde o usuário possa visu
 ## Fluxograma
 ```mermaid
 graph TD;
-    graph TD;
     A([Início]) --> B[[BEFORE_START]];
     B --> C[[CONDICAO]];
     C --> D[[USUARIO_DIGITA_START]];
