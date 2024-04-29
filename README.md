@@ -36,7 +36,7 @@ graph TD;
     V --> |NÃO|W[[FALHOU START]];
     V --> |SIM|X[[START]];
 
-	Y --> Z([Start]);
+
     X --> Y[[posicionaCursor]];
     Y --> Z[Limpa o display];
     Z --> AA[[escreveStringROM]];
@@ -64,10 +64,36 @@ graph TD;
     AV --> AW[[escreveStringROM]];
     AW --> AX[[USUARIO_DIGITA_FACIL]];
 
-    AX --> AY
-    AY --> AZ
-    AZ --> BA
-    BA --> BB
+   AX --> AY[[LOOP_FACIL]];
+   AY --> AZ{SE A == #0DH};
+   AZ --> |SIM|BA[MOV R2, #0H
+                   MOV R3, #0H
+                   MOV R0, #33H
+                   MOV R1, #50H];
+    AZ --> |NÃO|BB[[RODANDO_FACIL]];
+    BA --> BC[[CONT_CONT_FACIL]];
+    BB --> BD[[LOOP_FACIL]];
+    BC --> BE{SE A == #0DH};
+    BE --> |SIM|BF{SE R2 == 4H}
+    BE --> |NÃO|BG[[CONT_FACIL]];
+    BG --> BH[MOV A, @R0
+              MOV B, @R1];
+    BH --> BI{SE A == B};
+    BI --> |SIM|BJ[INC R0, R1, R2];
+    BJ --> BK[[CONT_CONT_FACIL]];
+    BF --> |NÃO|BL[[FALHOU_FACIL]];
+    BL --> BN[[posicionaCursor]];
+    BN --> BO[Limpa o display];
+    BO --> BP[[escreveStringROM]];
+    BP --> BQ[[posicionaCursor]];
+    BQ --> BR[PERDEU!];
+    BR --> BS[[escreveStringROM]];
+    BS --> BT[[posicionaCursor]];
+    BT --> BU[Limpa o display];
+    BU --> BV[[escreveStringROM]];
+    BV --> BW[[Condicao]];
+    BF --> |SIM|BM{SE R3 == #0H};
+    
 
 ```
 
