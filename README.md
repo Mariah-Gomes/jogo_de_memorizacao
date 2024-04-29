@@ -10,122 +10,27 @@ Neste projeto, decidimos realizar um jogo em Assembly onde o usuário possa visu
 ## Fluxograma
 ```mermaid
 graph TD;
+    graph TD;
     A([Início]) --> B[[BEFORE_START]];
-    B --> C[[lcd_init]];
-    C --> D[[CONDICAO]];
-    D --> E[[posicionaCursor]];
-    E --> F["Digite 1..."]
-    F --> G[[escreveStringROM]];
-    G --> H[[USUARIO_DIGITA_START]];
-    H --> I[[LOOP_START]];
-    I --> J{SE A == #0Dh};
-    J -->|NÃO|K[[RODANDO_START]];
-    J --> |SIM|L[MOV R2, #0H
-            MOV R3, #0H
-            MOV R1, #50H]
-    K --> M[[LOOP_START]];
-    L --> N[[CONT_CONT_START]];
-    N --> O{SE A == #0Dh};
-    O --> |NÃO|P[[CONT_START]];
-    O --> |SIM|Q{SE R2 == #1H};
-    P --> R{SE A == #31H};
-    R --> |NÃO|S[[ERROU_START]];
-    R --> |SIM|T[[CONT_CONT_START]]; 
-    Q --> |NÃO|U[[FALHOU_START]];
-    Q --> |SIM|V{SE R3 == 0H};
-    V --> |NÃO|W[[FALHOU START]];
-    V --> |SIM|X[[START]];
-
-
-    X --> Y[[posicionaCursor]];
-    Y --> Z[Limpa o display];
-    Z --> AA[[escreveStringROM]];
-    AA --> AB[[posicionaCursor]];
-    AB --> AC["Bem Vindo"];
-    AC --> AD[[escreveStringROM]];
-    AD --> AE[[posicionaCursor]];
-    AE --> AF[Limpa o display];
-    AF --> AG[[escreveStringROM]];
-    AG --> AH[[posicionaCursor]];
-    AH --> AI[Nível Fácil];
-    AI --> AJ[[escreveStringROM]];
-    AJ --> AK[[posicionarCursor]];
-    AK --> AL[Limpa o display];
-    AL --> AM[[escreveStringROM]];
-    AM --> AN[[SEQUENCIA_FACIL]];
-    AN --> AO[[READ_SEQUENCIAS]];
-    AO --> AP[[AJST_FACIL]];
-    AP --> AQ[[NEW_DELAY]];
-    AQ --> AR[[posicionaCursor]];
-    AR --> AS[Limpar o display];
-    AS --> AT[[escreveStringROM]];
-    AT --> AU[[posicionaCursor]];
-    AU --> AV["RESPONDA"];
-    AV --> AW[[escreveStringROM]];
-    AW --> AX[[USUARIO_DIGITA_FACIL]];
-
-   AX --> AY[[LOOP_FACIL]];
-   AY --> AZ{SE A == #0DH};
-   AZ --> |SIM|BA[MOV R2, #0H
-                   MOV R3, #0H
-                   MOV R0, #33H
-                   MOV R1, #50H];
-    AZ --> |NÃO|BB[[RODANDO_FACIL]];
-    BA --> BC[[CONT_CONT_FACIL]];
-    BB --> BD[[LOOP_FACIL]];
-    BC --> BE{SE A == #0DH};
-    BE --> |SIM|BF{SE R2 == 4H}
-    BE --> |NÃO|BG[[CONT_FACIL]];
-    BG --> BH[MOV A, @R0
-              MOV B, @R1];
-    BH --> BI{SE A == B};
-    BI --> |SIM|BJ[INC R0, R1, R2];
-    BJ --> BK[[CONT_CONT_FACIL]];
-    BF --> |NÃO|BL[[FALHOU_FACIL]];
-    BL --> BN[[posicionaCursor]];
-    BN --> BO[Limpa o display];
-    BO --> BP[[escreveStringROM]];
-    BP --> BQ[[posicionaCursor]];
-    BQ --> BR[PERDEU!];
-    BR --> BS[[escreveStringROM]];
-    BS --> BT[[posicionaCursor]];
-    BT --> BU[Limpa o display];
-    BU --> BV[[escreveStringROM]];
-    BV --> BW[[Condicao]];
-    BF --> |SIM|BM{SE R3 == #0H};
-    BM --> BX[[posicionaCursor]];
-    BX --> BY[Limpa o display];
-    BY --> BZ[[escreveStringROM]];
-    BZ --> CA[[posicionaCursor]];
-    CA --> CB[ACERTOU!];
-    CB --> CC[[escreveStringROM]];
-    CC --> CD[[posicionaCursor]];
-    CD --> CE[Limpa o display];
-    CE --> CF[[escreveStringROM]];
-    CF --> CG[[posicionaCursor]];
-    CG --> CH[PROXIMO NIVEL...];
-    CH --> CI[[escreveStringROM]];
-    CI --> CJ[[posicionaCursor]];
-    CJ --> CK[Limpa o display];
-    CK --> CL[[escreveStringROM]];
-    CL --> CM[[START]];
-    CM --> CN[[posicionaCursor]];
-    CN --> CO[NIVEL MEDIO];
-    CO --> CP[[escreveStringROM]];
-    CP --> CQ[[posicionaCursor]];
-    CQ --> CR[Limpa o display];
-    CR --> CS[[escreveStringROM]];
-    CS --> CT[[SEQUENCIA_MEDIO]];
-    CT --> CU[[READ_SEQUENCIAS]];
-    CU --> CV[[AJST_MEDIO]];
-    CV --> CW[[NEW_DELAY]];
-    CW --> CX[[posicionaCursor]];
-    CX --> CY[Limpa o display];
-    CY --> CZ[[escreveStringROM]];
-    CZ --> DA[[posicionaCursor]];
-    DA --> DB[RESPONDA ->];
-    DB --> DC[[escreveStringROM]];
-    DC --> DD[[USUARIO_DIGITA_MEDIO]];
+    B --> C[[CONDICAO]];
+    C --> D[[USUARIO_DIGITA_START]];
+    D --> E[[LOOP_START]];
+    E --> F{SE A == #0DH};
+    F -->|NÃO|G[[RODANDO_START]];
+    G--> E;
+    F -->|SIM|H[[CONT_CONT_START]];
+    H --> I{SE A == #0DH};
+    I --> |NÃO|J[[CONT_START]];
+    J --> K{SE A == #31H};
+    K --> |NÃO|L[[ERROU_START]];
+    L --> H; 
+    K --> |SIM|H;
+    I --> |SIM|N{SE R2 == #1H};
+    N --> |NÃO|O[[FALHOU_START]];
+    O --> C;
+    N --> |SIM|P{SE R3 == #0H};
+    P --> |NÃO|O;
+    P --> |SIM|Q[[START]];
 ```
 
 ## Código-fonte comentado
