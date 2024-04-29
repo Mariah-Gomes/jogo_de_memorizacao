@@ -109,7 +109,23 @@ graph TD;
     CJ --> CK[Limpa o display];
     CK --> CL[[escreveStringROM]];
     CL --> CM[[START]];
-
+    CM --> CN[[posicionaCursor]];
+    CN --> CO[NIVEL MEDIO];
+    CO --> CP[[escreveStringROM]];
+    CP --> CQ[[posicionaCursor]];
+    CQ --> CR[Limpa o display];
+    CR --> CS[[escreveStringROM]];
+    CS --> CT[[SEQUENCIA_MEDIO]];
+    CT --> CU[[READ_SEQUENCIAS]];
+    CU --> CV[[AJST_MEDIO]];
+    CV --> CW[[NEW_DELAY]];
+    CW --> CX[[posicionaCursor]];
+    CX --> CY[Limpa o display];
+    CY --> CZ[[escreveStringROM]];
+    CZ --> DA[[posicionaCursor]];
+    DA --> DB[RESPONDA ->];
+    DB --> DC[[escreveStringROM]];
+    DC --> DD[[USUARIO_DIGITA_MEDIO]];
 ```
 
 ## Código-fonte comentado
