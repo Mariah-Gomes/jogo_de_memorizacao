@@ -18,22 +18,22 @@ graph TD;
     F --> G[[USUARIO_DIGITA_START]];
     G --> H[[LOOP_START]];
     H --> I{SE A == #0Dh};
-    I -->|SIM|J[[RODANDO_START]];
-    I --> |NÃO|K[MOV R2, #0H
+    I -->|NÃO|J[[RODANDO_START]];
+    I --> |SIM|K[MOV R2, #0H
             MOV R3, #0H
             MOV R1, #50H]
     J --> L[[LOOP_START]];
     K --> M[[CONT_CONT_START]];
     M --> N{SE A == #0Dh};
-    N --> |SIM|O[[CONT_START]];
-    N --> |NÃO|P{SE R2 == #1H};
+    N --> |NÃO|O[[CONT_START]];
+    N --> |SIM|P{SE R2 == #1H};
     O --> Q{SE A == #31H};
-    Q --> |SIM|R[[ERROU_START]];
-    Q --> |NÃO|S[[CONT_CONT_START]]; 
-    P --> |SIM|T[[FALHOU_START]];
-    P --> |NÃO|U{SE R3 == 0H};
-    U --> |SIM|V[[FALHOU START]];
-    U --> |NÃO|W[[START]];
+    Q --> |NÃO|R[[ERROU_START]];
+    Q --> |SIM|S[[CONT_CONT_START]]; 
+    P --> |NÃO|T[[FALHOU_START]];
+    P --> |SIM|U{SE R3 == 0H};
+    U --> |NÃO|V[[FALHOU START]];
+    U --> |SIM|W[[START]];
 ```
 
 ## Código-fonte comentado
