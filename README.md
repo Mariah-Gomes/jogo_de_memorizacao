@@ -38,8 +38,35 @@ graph TD;
 
     X --> Y[[posicionaCursor]];
     Y --> Z[Limpa o display];
-    AA
-    AB
+    Z --> AA[[escreveStringROM]];
+    AA --> AB[[posicionaCursor]];
+    AB --> AC["Bem Vindo"];
+    AC --> AD[[escreveStringROM]];
+    AD --> AE[[posicionaCursor]];
+    AE --> AF[Limpa o display];
+    AF --> AG[[escreveStringROM]];
+    AG --> AH[[posicionaCursor]];
+    AH --> AI[Nível Fácil];
+    AI --> AJ[[escreveStringROM]];
+    AJ --> AK[[posicionarCursor]];
+    AK --> AL[Limpa o display];
+    AL --> AM[[escreveStringROM]];
+    AM --> AN[[SEQUENCIA_FACIL]];
+    AN --> AO[[READ_SEQUENCIAS]];
+    AO --> AP[[AJST_FACIL]];
+    AP --> AQ[[NEW_DELAY]];
+    AQ --> AR[[posicionaCursor]];
+    AR --> AS[Limpar o display];
+    AS --> AT[[escreveStringROM]];
+    AT --> AU[[posicionaCursor]];
+    AU --> AV["RESPONDA"];
+    AV --> AW[[escreveStringROM]];
+    AW --> AX[[USUARIO_DIGITA_FACIL]];
+
+    AX --> AY
+    AY --> AZ
+    AZ --> BA
+    BA --> BB
 
 ```
 
