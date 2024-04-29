@@ -9,18 +9,39 @@ Neste projeto, decidimos realizar um jogo em Assembly onde o usuário possa visu
 
 ## Fluxograma
 ```mermaid
+```mermaid
 graph TD;
-    A[Início] --> B[Passo 1];
-    B --> C[Passo 2];
-    B --> D[Fim];
-    C --> D;
+    A([Início]) --> B[[BEFORE_START]];
+    B --> C[[lcd_init]];
+    C --> D[[CONDICAO]];
+    D --> E[[posicionaCursor]];
+    E --> F[[escreveStringROM]];
+    F --> G[[USUARIO_DIGITA_START]];
+    G --> H[[LOOP_START]];
+    H --> I{SE A == #0Dh};
+    I -->|SIM|J[[RODANDO_START]];
+    I --> |NÃO|K[MOV R2, #0H
+            MOV R3, #0H
+            MOV R1, #50H]
+    J --> L[[LOOP_START]];
+    K --> M[[CONT_CONT_START]];
+    M --> N{SE A == #0Dh};
+    N --> |SIM|O[[CONT_START]];
+    N --> |NÃO|P{SE R2 == #1H};
+    O --> Q{SE A == #31H};
+    Q --> |SIM|R[[ERROU_START]];
+    Q --> |NÃO|S[[CONT_CONT_START]]; 
+    P --> |SIM|T[[FALHOU_START]];
+    P --> |NÃO|U{SE R3 == 0H};
+    U --> |SIM|V[[FALHOU START]];
+    U --> |NÃO|W[[START]];
 ```
 
 ## Código-fonte comentado
 
 ```javascript
-; 1-3 funções importantes.
-; Função de interrpção, responsável em guardar os valores que o usuário digitou em um array.
+;1-3 funções importantes.
+;Função de interrpção, responsável em guardar os valores que o usuário digitou em um array.
 
 ;FUNÇÃO DE INTERRUPÇÃO PARA GUARDAR O QUE O USUÁRIO DIGITOU. 
 org 023H
@@ -33,8 +54,8 @@ org 023H
 ```
 
 ```javascript
-; 2-3 funções importantes.
-; Função para começar o jogo. Ela fica em um loop até o usuário digitar 1 (nem mais e nem menos).
+;2-3 funções importantes.
+;Função para começar o jogo. Ela fica em um loop até o usuário digitar 1 (nem mais e nem menos).
 
 USUARIO_DIGITA_START: ;FUNÇÃO PARA RECEBER O VALOR DO USUÁRIO PARA COMEÇAR O JOGO.
 	MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
@@ -76,9 +97,9 @@ FALHOU_START: ;CASO O USUÁRIO ERRE O VALOR, ELE VOLTA PARA O LOOP INICIAL.
 ```
 
 ```javascript
-; 3-3 funções importantes.
-; Função para receber os valores do usuário para o nível fácil, verificar eles, e dizer se o usuário acertou ou não. Caso o usuário tenha acertado ele pula para o próximo nível, caso não, ele volta para o loop inicial.
-; As funções do nível médio e difícil são iguais (com alguns valores diferentes), e o nível GOD é bem parecido, mudando que se o usuário ganhar ele também volta para o loop inicial.
+;3-3 funções importantes.
+;Função para receber os valores do usuário para o nível fácil, verificar eles, e dizer se o usuário acertou ou não. Caso o usuário tenha acertado ele pula para o próximo nível, caso não, ele volta para o loop inicial.
+;As funções do nível médio e difícil são iguais (com alguns valores diferentes), e o nível GOD é bem parecido, mudando que se o usuário ganhar ele também volta para o loop inicial.
 
 USUARIO_DIGITA_FACIL: ;FUNÇÃO PARA RECEBER OS VALORES DO USUÁRIO PARA O NÍVEL FÁCIL.
 	MOV SCON, #50H ;porta serial no modo 1 e habilita a recepção
