@@ -14,26 +14,33 @@ graph TD;
     B --> C[[lcd_init]];
     C --> D[[CONDICAO]];
     D --> E[[posicionaCursor]];
-    E --> F[[escreveStringROM]];
-    F --> G[[USUARIO_DIGITA_START]];
-    G --> H[[LOOP_START]];
-    H --> I{SE A == #0Dh};
-    I -->|NÃO|J[[RODANDO_START]];
-    I --> |SIM|K[MOV R2, #0H
+    E --> F["Digite 1..."]
+    F --> G[[escreveStringROM]];
+    G --> H[[USUARIO_DIGITA_START]];
+    H --> I[[LOOP_START]];
+    I --> J{SE A == #0Dh};
+    J -->|NÃO|K[[RODANDO_START]];
+    J --> |SIM|L[MOV R2, #0H
             MOV R3, #0H
             MOV R1, #50H]
-    J --> L[[LOOP_START]];
-    K --> M[[CONT_CONT_START]];
-    M --> N{SE A == #0Dh};
-    N --> |NÃO|O[[CONT_START]];
-    N --> |SIM|P{SE R2 == #1H};
-    O --> Q{SE A == #31H};
-    Q --> |NÃO|R[[ERROU_START]];
-    Q --> |SIM|S[[CONT_CONT_START]]; 
-    P --> |NÃO|T[[FALHOU_START]];
-    P --> |SIM|U{SE R3 == 0H};
-    U --> |NÃO|V[[FALHOU START]];
-    U --> |SIM|W[[START]];
+    K --> M[[LOOP_START]];
+    L --> N[[CONT_CONT_START]];
+    N --> O{SE A == #0Dh};
+    O --> |NÃO|P[[CONT_START]];
+    O --> |SIM|Q{SE R2 == #1H};
+    P --> R{SE A == #31H};
+    R --> |NÃO|S[[ERROU_START]];
+    R --> |SIM|T[[CONT_CONT_START]]; 
+    Q --> |NÃO|U[[FALHOU_START]];
+    Q --> |SIM|V{SE R3 == 0H};
+    V --> |NÃO|W[[FALHOU START]];
+    V --> |SIM|X[[START]];
+
+    X --> Y[[posicionaCursor]];
+    Y --> Z[Limpa o display];
+    AA
+    AB
+
 ```
 
 ## Código-fonte comentado
