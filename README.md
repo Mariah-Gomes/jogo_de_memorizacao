@@ -36,6 +36,7 @@ graph TD;
     V --> |NÃO|W[[FALHOU START]];
     V --> |SIM|X[[START]];
 
+	Y --> Z([Start]);
     X --> Y[[posicionaCursor]];
     Y --> Z[Limpa o display];
     Z --> AA[[escreveStringROM]];
