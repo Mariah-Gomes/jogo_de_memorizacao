@@ -250,17 +250,27 @@ FALHOU_FACIL: ;CASO O USUÁRIO ERRE O PROGRAMA RETORNA PARA O LOOP INICIAL.
 
 ## Imagens da Simulação
 Para iniciar o jogo o usuário precisa digitar na comunicação serial do EdSim 51 o número 1.
-Imagem de quando inícia o jogo.
+
+![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/5a8a35b6-d47e-4a52-9e22-dfcb11d7e1dd)
 
 Após o EdSim 51 receber o número 1 mostra a tela de início do jogo e o jogo começa a rodar. 
-Imagem de após iniciar o jogo.
+
+![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/efc76219-2780-4e4e-9862-1094d848f83c)
 
 O primeiro nível do jogo é o nível fácil com 4 números. Portanto, no jogo mostra no display qual é o nível que o usuário está jogando, e a sequência dos números. Depois de um tempo para o usuário memorizar aparece no display uma mensagem dizendo que o usuário pode digitar os números e enviar eles através do comunicador serial do EdSim 51. Além disso, se o usuário digitar menos números que o previsto do nível ou digitar mais números ele perde e o jogo reinicia.  Em particular, demostramos apenas as fotos do nível fácil, porém, esse procedimento acontece nos outros níveis da mesma forma, mas, no final do último nível mostra uma mensagem de parabéns e o jogo reinicia.
-Imagem de apresentação do nível.
-Imagem dos números.
-Imagem da mensagem do usuário.
-Imagem do comunicador serial do EdSim 51
-Imagem nível fácil.
-Imagem proxímo nível
-Imagem de parabéns
-Imagem de erro
+
+![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/bfd04a03-b8fe-4c30-8299-59765c742176)
+
+![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/2aaea003-79f6-498a-adb9-8231419e196d)
+
+![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/f175afe0-4b1a-4e8b-88b3-3473ccb26fc0)
+
+![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/4b20288e-a159-4621-9570-f06758316f29)
+
+![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/0f363ff9-038c-474b-9a65-970caf0218a0)
+
+![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/8a4c8edf-e8f3-44fd-9d4f-a7b4b06da800)
+
+![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/1fd8c7c5-9e71-48d4-a388-bb0682efa8d5)
+
+![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/b4cb5325-dbae-414d-bca4-6bbb5250846d)
