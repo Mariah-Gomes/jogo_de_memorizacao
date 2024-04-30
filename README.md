@@ -34,7 +34,7 @@ graph TD;
     Q --> R[[SEQUENCIA_FACIL]];
     R --> S[[USUARIO_DIGITA_FACIL]];
     S --> T[[LOOP_FACIL]];
-    T --> U{SE A == #ODH};
+    T --> U{SE A == #0DH};
     U --> |NÃO|V[[RODANDO_FACIL]];
     V --> T;
     U --> |SIM|W[[CONT_CONT_FACIL]];
@@ -43,12 +43,29 @@ graph TD;
     Y --> Z{SE A == B};
     Z --> |NÃO|W;
     Z --> |SIM|W;
-    X --> |SIM|AA{SE R2 == #0DH};
+    X --> |SIM|AA{SE R2 == #4H};
     AA --> |NÃO|AB[[FALHOU_FACIL]];
     AB --> C;
     AA --> |SIM|AC{SE R3 == #0H};
     AC --> |NÃO|AB;
-    AC --> |SIM|AD[NIVEL MEDIO];
+
+    AC --> |SIM|AD[[SEQUENCIA_MEDIO]];
+    AD --> AE[[USUARIO_DIGITA_MEDIO]];
+    AE --> AF[[LOOP_MEDIO]];
+    AF --> AG{SE A == #0DH};
+    AG --> |NÃO|AH[[RODANDO_MEDIO]];
+    AH --> AF;
+    AG --> |SIM|AI[[CONT_CONT_MEDIO]];
+    AI --> AJ{SE A == #0DH};
+    AJ --> |NÃO|AK[[CONT_MEDIO]];
+    AK --> AL{SE A == B};
+    AL --> |NÃO|AI;
+    AL --> |SIM|AI;
+    AJ --> |SIM|AM{SE R2 == #6H};
+    AM --> |NÃO|AN[[FALHOU_MEDIO]];
+    AN --> C;
+    AM --> |SIM|AO{SE R3 == #0H};
+    AO --> |NÃO|AN;
 
 ```
 
