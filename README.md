@@ -67,6 +67,29 @@ graph TD;
     AM --> |SIM|AO{SE R3 == #0H};
     AO --> |NÃO|AN;
 
+    AO --> AP[[SEQUENCIA_DIFICIL]];
+    AP --> AQ[[USUARIO_DIGITA_DIFICIL]];
+    AQ --> AR[[LOOP_DIFICIL]];
+    AR --> AS{SE A == #0DH};
+    AS --> |NÃO|AT[[RODANDO_DIFICIL]];
+    AT --> AR;
+    AS --> |SIM|AU[[CONT_CONT_DIFICIL]];
+    AU --> AV{SE A == #0DH};
+    AV --> |NÃO|AW[[CONT_DIFICIL]];
+    AW --> AX{SE A == B};
+    AX --> |NÃO|AY[[ERROU_DIFICIL]];
+    AY --> AU;
+    AX --> |SIM|AU;
+    AV --> |SIM|AZ{SE R2 == #8H};
+    AZ --> |NÃO|BA[[FALHOU_DIFICIL]];
+    BA --> C;
+    AZ --> |SIM|BB{SE R3 == #0H};
+    BB --> |NÃO|BA;
+
+    BB --> |SIM|BC[[SEQUENCIA_GOD]];
+    
+
+
 ```
 
 ## Código-fonte comentado
