@@ -27,8 +27,10 @@ Caso, o usuário esteja correto ele sobe de nível, ou seja, mostra um array dif
 
 ## :mag_right: Funcionalidade
 1. Para iniciar o jogo o usuário precisa digitar na comunicação serial do EdSim 51 o número 1.
-
-![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/5a8a35b6-d47e-4a52-9e22-dfcb11d7e1dd)
+   
+<div align="center">
+    ![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/5a8a35b6-d47e-4a52-9e22-dfcb11d7e1dd)
+</div>
 
 2. Após o EdSim 51 receber o número 1 mostra a tela de início do jogo e o jogo começa a rodar. 
 
