@@ -18,9 +18,11 @@
 ## :pencil: Descrição do Projeto
 
 <div align="justify">
+	
 Neste projeto, decidimos realizar um jogo em Assembly onde o usuário possa visualizar no display uma sequência de números, que ficam um tempo no display e o usuário terá que decorar a sequência dos números e em seguida digitar a sequência utilizando comunicação serial do EdSim 51. 
 	
 Caso, o usuário esteja correto ele sobe de nível, ou seja, mostra um array diferente para o usuário. Portanto, o jogo terá 4 níveis diferentes, entre eles, o fácil com 4 números, o médio com 6 números, o díficil com 8 números e um GOD (super díficil) com 10 números. Caso, o usuário errar a sequência o jogo termina e ele terá que recomeçar. Mas, se o jogador ganhar, mostra uma mensagem na tela de comemoração, o jogo finaliza e volta para o início. Onde o usuário precisa digitar 1 para recomeçar o jogo. 	
+
 </div>
 
 ## :mag_right: Funcionalidade
@@ -28,11 +30,11 @@ Caso, o usuário esteja correto ele sobe de nível, ou seja, mostra um array dif
 
 ![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/5a8a35b6-d47e-4a52-9e22-dfcb11d7e1dd)
 
-Após o EdSim 51 receber o número 1 mostra a tela de início do jogo e o jogo começa a rodar. 
+2. Após o EdSim 51 receber o número 1 mostra a tela de início do jogo e o jogo começa a rodar. 
 
 ![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/efc76219-2780-4e4e-9862-1094d848f83c)
 
-O primeiro nível do jogo é o nível fácil com 4 números. Portanto, no jogo mostra no display qual é o nível que o usuário está jogando, e a sequência dos números. Depois de um tempo para o usuário memorizar aparece no display uma mensagem dizendo que o usuário pode digitar os números e enviar eles através do comunicador serial do EdSim 51. Além disso, se o usuário digitar menos números que o previsto do nível ou digitar mais números ele perde e o jogo reinicia.  Em particular, demostramos apenas as fotos do nível fácil, porém, esse procedimento acontece nos outros níveis da mesma forma, mas, no final do último nível mostra uma mensagem de parabéns e o jogo reinicia.
+3. O primeiro nível do jogo é o nível fácil com 4 números. Portanto, no jogo mostra no display qual é o nível que o usuário está jogando, e a sequência dos números. Depois de um tempo para o usuário memorizar aparece no display uma mensagem dizendo que o usuário pode digitar os números e enviar eles através do comunicador serial do EdSim 51. Além disso, se o usuário digitar menos números que o previsto do nível ou digitar mais números ele perde e o jogo reinicia.  Em particular, demostramos apenas as fotos do nível fácil, porém, esse procedimento acontece nos outros níveis da mesma forma, mas, no final do último nível mostra uma mensagem de parabéns e o jogo reinicia.
 
 ![image](https://github.com/Mariah-Gomes/ProjetoAssembly/assets/141663285/bfd04a03-b8fe-4c30-8299-59765c742176)
 
