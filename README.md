@@ -4,7 +4,7 @@
 
 > Observação: Esse projeto nos foi proposto no 4ºSemestre na disciplina de Arquitetura de Computadores
 
-> Esse projeto fizemos estando presencialmente juntos, porém, muitas vezes subindo para o GitHub em apenas uma máquina
+> Esse projeto fizemos presencialmente juntos, porém, muitas vezes subindo para o GitHub em apenas uma máquina
 
 ### Tópicos
 🔹[Descrição do Projeto](#pencil-descrição-do-projeto)
